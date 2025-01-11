@@ -1,4 +1,4 @@
-import example_utils
+import theseus_alpha.example_utils as example_utils
 from hyperliquid.utils import constants
 
 def test_hyperliquid_connection():
