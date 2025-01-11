@@ -1,15 +1,15 @@
 # tests/test_combined_profile.py
 
-from src.utils import example_utils
 from hyperliquid.utils import constants
-from src.profilers.spot_profiler import SpotProfiler
-from src.profilers.perp_profiler import PerpProfiler
-from src.adjusters.profile_adjusters import SpotProfileAdjuster, PerpProfileAdjuster
+from theseus_alpha.utils.example_utils import setup
+from theseus_alpha.profilers.spot_profiler import SpotProfiler 
+from theseus_alpha.profilers.perp_profiler import PerpProfiler
+from theseus_alpha.adjusters.profile_adjusters import SpotProfileAdjuster, PerpProfileAdjuster
 
 def test_combined_profiles():
     try:
-        # Setup connection
-        address, info, exchange = example_utils.setup(constants.TESTNET_API_URL, skip_ws=True)
+         # Setup connection
+        address, info, exchange = setup(constants.TESTNET_API_URL, skip_ws=True)
         
         print("\n=== Welcome to Theseus Alpha Trading System ===")
         print("\nAnalyzing your complete trading profile...\n")
