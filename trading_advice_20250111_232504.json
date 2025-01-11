@@ -1,0 +1,42 @@
+{
+  "spot_recommendations": [
+    {
+      "asset": "ETH",
+      "action": "buy",
+      "size_usd": 5000,
+      "reasoning": [
+        "User prefers aggressive, swing trading in short-term horizons.",
+        "ETH provides a good mix of volatility and growth potential suitable for aggressive swing trading.",
+        "User's experience as a beginner is counterbalanced by their desire for high returns, making ETH a suitable choice due to its well-established market presence and relative stability among altcoins.",
+        "Targeting a 400% return aligns with obtaining a significant position in a high-potential asset like ETH during advantageous market conditions.",
+        "Given the portfolio's high concentration, investing in a familiar market such as ETH could potentially diversify through spot acquisition while maintaining aggressive growth targets."
+      ]
+    }
+  ],
+  "perp_recommendations": [
+    {
+      "asset": "BTC",
+      "direction": "long",
+      "size_usd": 3000,
+      "leverage": 10,
+      "reasoning": [
+        "The user's moderate appetite for risk in perpetual trading suggests a careful yet favorable stance towards leverage, balanced at 10x to match experience and risk tolerance.",
+        "BTC's market dominance and liquidity provide a stable platform for day trading with leverage, mitigating some risk associated with high leverage trading.",
+        "An aggressive return target of 900% in ultra-short term necessitates leveraging a solid, high-liquidity asset like BTC.",
+        "BTC's price volatility on short time frames can be advantageous for a day trader looking to capitalize on price movements within the user's risk profile.",
+        "Leverage is adjusted slightly below the user's average to account for intermediate experience level, ensuring a buffer against market volatility while aiming for aggressive returns."
+      ]
+    }
+  ],
+  "overall_strategy": {
+    "risk_assessment": "Aggressive, with a nuanced approach to leverage and market selection based on user profiles and market conditions.",
+    "portfolio_balance": "The strategy leverages both ETH spot and BTC perp positions, balancing the aggressive growth objectives with diversification across market types and asset classes.",
+    "key_considerations": [
+      "Considering the user's beginner status in spot trading, recommendations align with known markets (ETH) to leverage existing market knowledge while adopting an aggressive stance.",
+      "For perpetual trading, a more calculated approach to leverage (10x) accommodates the user's moderate risk appetite and intermediate experience, targeting high liquidity and volatility markets (BTC).",
+      "The dichotomy in experience levels between spot and perp trading necessitates a cautious yet strategic leverage use, ensuring alignment with aggressive targets while mitigating undue risk.",
+      "Given the aggressive return targets, continuous market analysis and risk reassessment is essential, particularly in response to major market movements or volatility spikes.",
+      "Diversification within the suggested bounds (ETH for spot and BTC for perps) addresses the aggressive growth pursuit while managing risk through portfolio balance."
+    ]
+  }
+}
