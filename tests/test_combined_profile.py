@@ -8,7 +8,7 @@ from theseus_alpha.adjusters.profile_adjusters import SpotProfileAdjuster, PerpP
 
 def test_combined_profiles():
     try:
-         # Setup connection
+        # Setup connection - Changed this line
         address, info, exchange = setup(constants.TESTNET_API_URL, skip_ws=True)
         
         print("\n=== Welcome to Theseus Alpha Trading System ===")

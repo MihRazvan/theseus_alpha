@@ -1,0 +1,62 @@
+{
+  "spot_recommendations": [
+    {
+      "asset": "BTC",
+      "action": "buy",
+      "size_usd": 10000.0,
+      "reasoning": [
+        "BTC presents a stable growth opportunity for medium-term holdings.",
+        "Aligns with aggressive hodling strategy despite moderate risk tolerance."
+      ]
+    },
+    {
+      "asset": "ETH",
+      "action": "buy",
+      "size_usd": 7000.0,
+      "reasoning": [
+        "ETH has strong fundamentals and potential for growth, suitable for swing trading.",
+        "Diversifies portfolio within preferred assets, balancing risk and return."
+      ]
+    },
+    {
+      "asset": "USDT",
+      "action": "hold",
+      "size_usd": 3000.0,
+      "reasoning": [
+        "USDT provides portfolio stability and liquidity for future trades.",
+        "Conserves capital for taking advantage of market opportunities."
+      ]
+    }
+  ],
+  "perp_recommendations": [
+    {
+      "asset": "BTC",
+      "direction": "long",
+      "size_usd": 5000.0,
+      "leverage": 10,
+      "reasoning": [
+        "Leverage aligns with average use and risk appetite, optimizing potential returns.",
+        "BTC's current market conditions indicate a bullish trend suitable for day trading."
+      ]
+    },
+    {
+      "asset": "ETH",
+      "direction": "short",
+      "size_usd": 5000.0,
+      "leverage": 8,
+      "reasoning": [
+        "Moderate leverage reflects risk tolerance and experience level.",
+        "Short position on ETH diversifies perp trading strategy, capitalizing on intraday volatility."
+      ]
+    }
+  ],
+  "overall_strategy": {
+    "risk_assessment": "Moderate to Aggressive",
+    "portfolio_balance": "Diversified across both spot and perpetual positions within preferred markets.",
+    "key_considerations": [
+      "Balancing hodler tendencies with swing/day trading to optimize for medium to intraday returns.",
+      "Mitigating risk with diversified asset allocation and appropriate leverage.",
+      "Monitoring market trends closely due to moderate experience level and high leverage in perp trades."
+    ]
+  }
+}
