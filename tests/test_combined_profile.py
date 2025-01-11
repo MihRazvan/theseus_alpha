@@ -1,10 +1,10 @@
 # tests/test_combined_profile.py
 
-import example_utils
+from src.utils import example_utils
 from hyperliquid.utils import constants
-from spot_profiler import SpotProfiler
-from perp_profiler import PerpProfiler
-from profile_adjusters import SpotProfileAdjuster, PerpProfileAdjuster
+from src.profilers.spot_profiler import SpotProfiler
+from src.profilers.perp_profiler import PerpProfiler
+from src.adjusters.profile_adjusters import SpotProfileAdjuster, PerpProfileAdjuster
 
 def test_combined_profiles():
     try:
