@@ -19,6 +19,9 @@ MIN_ORDER_SIZE_USD = 10
 MAX_ORDER_SIZE_USD = 150
 TRADE_DELAY = 2  # Seconds between trades
 
+PURR_SPOT_PAIR = "PURR/USDC"
+MARKET_PRICE_PURR = 0.46  # Fixed price for PURR/USDC in testnet
+
 def print_header(msg: str):
     """Print a styled header."""
     print("\n" + "=" * 50)
@@ -42,6 +45,10 @@ def execute_spot_trades(advice: Dict, address: str, info, exchange):
     for i, trade in enumerate(trades, 1):
         print(f"\n🔄 Processing Trade {i}/{len(trades)}")
 
+        # Hardcode PURR/USDC for testnet spot trading
+        trade["asset"] = PURR_SPOT_PAIR
+        trade["market_price"] = MARKET_PRICE_PURR
+
         execution = executor._execute_spot_trade(trade)
 
         # Display the trade result
@@ -58,6 +65,7 @@ def execute_spot_trades(advice: Dict, address: str, info, exchange):
         # Wait before the next trade
         if i < len(trades):
             print(f"\n⏳ Waiting {TRADE_DELAY}s before next trade...")
+            import time
             time.sleep(TRADE_DELAY)
 
 def execute_perp_trades(advice: Dict, address: str, info, exchange):
@@ -90,6 +98,7 @@ def execute_perp_trades(advice: Dict, address: str, info, exchange):
         # Wait before the next trade
         if i < len(trades):
             print(f"\n⏳ Waiting {TRADE_DELAY}s before next trade...")
+            import time
             time.sleep(TRADE_DELAY)
 
 def main():
