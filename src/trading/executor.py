@@ -1,5 +1,4 @@
 # src/theseus_alpha/trading/executor.py
-from dataclasses import dataclass
 from typing import Dict, List, Optional
 import logging
 import json
@@ -7,14 +6,7 @@ from datetime import datetime
 
 from hyperliquid.info import Info
 from hyperliquid.exchange import Exchange
-
-@dataclass
-class TradeExecution:
-    asset: str
-    success: bool
-    order_id: Optional[int]
-    error: Optional[str]
-    timestamp: datetime
+from theseus_alpha.trading.types import TradeExecution
 
 class TradingExecutor:
     def __init__(self, address: str, info: Info, exchange: Exchange):
