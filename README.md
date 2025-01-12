@@ -41,6 +41,8 @@ Theseus Alpha's architecture is modular and scalable, focusing on three core pil
 
 ### Profilers
 
+<a href="https://ibb.co/0tJLr35"><img src="https://i.ibb.co/M6NH7Ld/Screenshot-2025-01-12-at-22-10-47.png" alt="Screenshot-2025-01-12-at-22-10-47" border="0"></a>
+
 #### Spot Profiler
 - Evaluates token holdings, trading history, and risk metrics.
 - Highlights portfolio concentration and asset diversity.
@@ -67,6 +69,8 @@ Theseus Alpha's architecture is modular and scalable, focusing on three core pil
   - Recommended assets
   - Trade size and direction
   - Leverage levels
+ 
+<a href="https://ibb.co/gSjfL31"><img src="https://i.ibb.co/WkxM469/Screenshot-2025-01-12-at-22-12-46.png" alt="Screenshot-2025-01-12-at-22-12-46" border="0"></a>
 
 ---
 
@@ -74,7 +78,8 @@ Theseus Alpha's architecture is modular and scalable, focusing on three core pil
 - Validates recommendations to ensure compliance with size limits.
 - Normalizes order sizes based on market liquidity.
 - Handles order placement with retries and error logging.
-
+- 
+<a href="https://ibb.co/fkjQBxb"><img src="https://i.ibb.co/v30Dgjb/Screenshot-2025-01-11-at-22-21-55.png" alt="Screenshot-2025-01-11-at-22-21-55" border="0"></a>
 ---
 
 ## Installation
@@ -134,6 +139,10 @@ poetry run python main.py
 ---
 
 ## Trading Parameters
+
+### The testnet has constant issues. Feel free to test each component individually using the test suite.
+- Focus on perps trading as there is no variety for spot
+- Something the system might crash if you select trading for either spot or perp trading. Select both if that happens.
 
 ### Size Limits
 - Minimum Order Size: **$10 USD**
