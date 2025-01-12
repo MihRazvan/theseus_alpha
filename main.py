@@ -55,7 +55,7 @@ def execute_spot_trades(advice: Dict, address: str, info, exchange):
             # Execute market order
             response = exchange.market_open(asset, True, size_usd / MARKET_PRICE_PURR, None, 0.01)
             if response["status"] == "ok":
-                print("\n✅ SUCCESS: Spot trade executed successfully")
+                print(f"\n✅ SUCCESS: Spot trade executed successfully for {size_usd} USD of {asset}")
             else:
                 raise Exception(f"Spot trade failed: {response}")
         except Exception as e:
@@ -93,7 +93,9 @@ def execute_perp_trades(advice: Dict, address: str, info, exchange):
             # Execute market order
             response = exchange.market_open(asset, direction, size_usd, None, 0.01)
             if response["status"] == "ok":
-                print("\n✅ SUCCESS: Perpetual trade executed successfully")
+                reasoning = trade.get("reasoning", ["No reasoning provided."])
+                print(f"\n✅ SUCCESS: Perpetual trade executed successfully for {size_usd} USD of {asset}")
+                print(f"📌 Reasoning: {'; '.join(reasoning)}")
             else:
                 raise Exception(f"Perpetual trade failed: {response}")
         except Exception as e:
