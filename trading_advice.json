@@ -1,0 +1,67 @@
+{
+  "spot_recommendations": [
+    {
+      "asset": "BTC",
+      "action": "buy",
+      "size_usd": 5000.0,
+      "reasoning": [
+        "Dominant market position suits long term horizon.",
+        "Fits aggressive risk tolerance with high volatility yet substantial growth potential.",
+        "BTC\u2019s historical pattern aligns with swing trading, providing significant opportunities for gains."
+      ]
+    },
+    {
+      "asset": "ETH",
+      "action": "buy",
+      "size_usd": 3000.0,
+      "reasoning": [
+        "Strong fundamentals and continuous development make it a compelling option for aggressive growth.",
+        "Diverse use-cases in DeFi and NFTs could drive long-term appreciation.",
+        "Aligns with active trading style, offering multiple entry and exit points."
+      ]
+    },
+    {
+      "asset": "SOL",
+      "action": "hold",
+      "size_usd": 0.0,
+      "reasoning": [
+        "Recent network stability issues pose risks but long-term potential remains.",
+        "Already existing in portfolio, hold position to capitalize on recovery.",
+        "High risk-return profile matches aggressive strategy but caution advised."
+      ]
+    }
+  ],
+  "perp_recommendations": [
+    {
+      "asset": "ADA",
+      "direction": "long",
+      "size_usd": 2000.0,
+      "leverage": 2,
+      "reasoning": [
+        "Leverage kept low to manage risk despite aggressive stance, balancing conservative history.",
+        "ADA presents a strong long-term investment with ongoing developments and partnerships.",
+        "Limited downside with sensible leverage allows for participation in upside with controlled risk."
+      ]
+    },
+    {
+      "asset": "XRP",
+      "direction": "long",
+      "size_usd": 1000.0,
+      "leverage": 2,
+      "reasoning": [
+        "Current regulatory clarity may provide a bullish outcome for XRP.",
+        "Low leverage aligns with conservative trading history, respecting risk appetite.",
+        "Potential for significant reward if bullish scenario plays out, fitting long-term horizon."
+      ]
+    }
+  ],
+  "overall_strategy": {
+    "risk_assessment": "Moderately aggressive with a tilt towards growth-oriented assets and controlled leverage.",
+    "portfolio_balance": "Diversification across major and mid-cap cryptocurrencies to hedge against volatility and maximize potential gains.",
+    "key_considerations": [
+      "Ensure continuous monitoring and readiness to adjust positions based on market developments.",
+      "Although aggressive in target returns, leverage and high-volatility bets are managed to temper downside risks.",
+      "Consider rebalancing the portfolio quarterly to reflect changing market dynamics and risk exposure."
+    ]
+  }
+}

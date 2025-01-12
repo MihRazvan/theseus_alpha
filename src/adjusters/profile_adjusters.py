@@ -57,6 +57,18 @@ class BaseProfileAdjuster(ABC):
     def adjust_profile(self) -> UserPreferences:
         pass
 
+    def adjust_profile_with_preferences(self, preferences: Dict) -> UserPreferences:
+        """Adjust profile using provided preferences."""
+        return UserPreferences(
+            risk_tolerance=preferences['risk_tolerance'],
+            trading_style=preferences['trading_style'],
+            preferred_markets=preferences['preferred_markets'],
+            time_horizon=preferences['time_horizon'],
+            max_drawdown=preferences['max_drawdown'],
+            target_return=preferences['target_return'],
+            custom_notes="Preferences set via user input"
+        )
+
 class SpotProfileAdjuster(BaseProfileAdjuster):
     def adjust_profile(self) -> UserPreferences:
         print("\n=== 📈 Spot Trading Profile Adjustment ===")

@@ -101,15 +101,15 @@ def test_perp_trading():
         print("\nOrder Result:")
         print(json.dumps(order_result, indent=2))
         
-        # If order is placed, try to cancel it
-        if order_result["status"] == "ok":
-            status = order_result["response"]["data"]["statuses"][0]
-            if "resting" in status:
-                time.sleep(1)  # Wait a bit
-                print("\nCancelling test order...")
-                cancel_result = exchange.cancel("ETH", status["resting"]["oid"])
-                print("Cancel Result:")
-                print(json.dumps(cancel_result, indent=2))
+        # # If order is placed, try to cancel it
+        # if order_result["status"] == "ok":
+        #     status = order_result["response"]["data"]["statuses"][0]
+        #     if "resting" in status:
+        #         time.sleep(1)  # Wait a bit
+        #         print("\nCancelling test order...")
+        #         cancel_result = exchange.cancel("ETH", status["resting"]["oid"])
+        #         print("Cancel Result:")
+        #         print(json.dumps(cancel_result, indent=2))
                 
         print("✅ Perpetual trading test completed")
         
@@ -185,14 +185,14 @@ def test_spot_trading():
         print("\nOrder Result:")
         print(json.dumps(order_result, indent=2))
         
-        # Cancel if order is resting
-        if order_result["status"] == "ok":
-            status = order_result["response"]["data"]["statuses"][0]
-            if "resting" in status:
-                time.sleep(1)  # Wait a bit
-                cancel_result = exchange.cancel("PURR/USDC", status["resting"]["oid"])
-                print("\nCancel Result:")
-                print(json.dumps(cancel_result, indent=2))
+        # # Cancel if order is resting
+        # if order_result["status"] == "ok":
+        #     status = order_result["response"]["data"]["statuses"][0]
+        #     if "resting" in status:
+        #         time.sleep(1)  # Wait a bit
+        #         cancel_result = exchange.cancel("PURR/USDC", status["resting"]["oid"])
+        #         print("\nCancel Result:")
+        #         print(json.dumps(cancel_result, indent=2))
                 
         print("✅ Spot trading test completed")
         
