@@ -1,4 +1,3 @@
-# tests/test_market_trading.py
 import logging
 from pathlib import Path
 import json
@@ -6,6 +5,12 @@ import time
 
 from hyperliquid.utils import constants
 from theseus_alpha.utils.setup_utils import setup_trading_environment, setup_leverage
+from theseus_alpha.trading.utils import (
+    normalize_price, 
+    calculate_safe_size,
+    validate_order,
+    check_balance
+)
 
 def test_perp_trading():
     """Test perpetual trading with ETH-USD."""
@@ -18,46 +23,78 @@ def test_perp_trading():
     print("\n=== Testing Perpetual Trading (ETH-USD) ===")
     
     try:
+        # Check balance first
+        balance, state = check_balance(info, main_address, "ETH", is_spot=False)
+        print(f"\nAvailable Balance: ${balance}")
+        
         # Set leverage first
         print("\nSetting up leverage...")
-        if not setup_leverage(exchange, "ETH", 1):
+        leverage = 2
+        if not setup_leverage(exchange, "ETH", leverage):
             print("❌ Failed to set leverage")
             return
         print("✅ Leverage set successfully")
         
-        # Get current price
-        mids = info.all_mids()
-        eth_price = float(mids.get('ETH', 0))
-        print(f"\nCurrent ETH Price: ${eth_price}")
+        # Get metadata and context information first
+        meta_ctxs = info.post("/info", {"type": "metaAndAssetCtxs"})
+        print("\nFetching market data...")
         
-        # Constants
-        min_trade_value = 10.0  # Minimum value in USD
-        min_trade_size_eth = 0.01  # Minimum size for ETH
-        size_precision = 0.001  # Precision step
-
-        # Calculate size
-        eth_price = float(mids.get('ETH', 0))
-        size = max(round(min_trade_value / eth_price, 6), min_trade_size_eth)
-
-        # Adjust for precision
-        size = round(size // size_precision * size_precision, 6)
-
-        print(f"\nCalculated trade size: {size} ETH (for at least ${min_trade_value})")
-
-        # Example tick size (adjust based on your exchange's requirements)
-        tick_size = 0.01  # Minimum price increment
-
-        # Calculate limit price and align it to the tick size
-        limit_price = round((eth_price * 0.99) // tick_size * tick_size, 2)
-
-        print(f"\nLimit price aligned to tick size: ${limit_price}")
-
+        # Debug metadata
+        universe = meta_ctxs[0].get('universe', [])
+        eth_meta = next((asset for asset in universe if asset['name'] == 'ETH'), None)
+        
+        if not eth_meta:
+            print("❌ ETH metadata not found")
+            return
+            
+        eth_asset_idx = universe.index(eth_meta)
+        eth_ctx = meta_ctxs[1][eth_asset_idx]
+        
+        # Get prices
+        current_price = float(info.all_mids()["ETH"])
+        oracle_price = float(eth_ctx['oraclePx'])
+        mark_price = float(eth_ctx['markPx'])
+        
+        print(f"\nCurrent Price: ${current_price}")
+        print(f"Oracle Price: ${oracle_price}")
+        print(f"Mark Price: ${mark_price}")
+        
+        # Use oracle price
+        normalized_price = oracle_price
+        
+        # Calculate size using a more conservative approach
+        size, size_message = calculate_safe_size(
+            info,
+            "ETH",
+            balance,
+            normalized_price,
+            leverage=leverage,
+            safety_margin=0.50  # More conservative for testing
+        )
+        print(f"\nCalculated Size: {size_message}")
+        
+        # Validate the order
+        is_valid, validation_message = validate_order(
+            info,
+            "ETH",
+            True,  # Buy
+            size,
+            normalized_price,
+            leverage=leverage
+        )
+        print(f"\nOrder Validation: {validation_message}")
+        
+        if not is_valid:
+            print(f"❌ Order validation failed: {validation_message}")
+            return
+        
+        print(f"\nPlacing limit order: Buy {size} ETH @ ${normalized_price}")
         
         order_result = exchange.order(
             "ETH",      # Asset
             True,       # Buy
             size,       # Amount
-            limit_price,  # Price
+            normalized_price,  # Price
             {"limit": {"tif": "Gtc"}}  # Good-til-cancel
         )
         
@@ -78,6 +115,7 @@ def test_perp_trading():
         
     except Exception as e:
         print(f"❌ Perpetual trading test failed: {str(e)}")
+        print(f"Exception details: {type(e).__name__}")
         raise
 
 def test_spot_trading():
@@ -91,23 +129,56 @@ def test_spot_trading():
     print("\n=== Testing Spot Trading (PURR/USDC) ===")
     
     try:
-        # Get current spot state
-        spot_state = info.spot_user_state(main_address)
-        print("\nSpot Balances:")
-        for balance in spot_state.get("balances", []):
-            print(json.dumps(balance, indent=2))
-            
-        # Place a small PURR order
-        size = 30.0  
-        price = 0.5  # Test price
+        # Check USDC balance first
+        balance, state = check_balance(info, main_address, "USDC", is_spot=True)
+        if state and isinstance(state, list):
+            print("\nSpot Balances:")
+            for balance_info in state:
+                if isinstance(balance_info, dict):
+                    print(json.dumps(balance_info, indent=2))
+                
+        print(f"\nAvailable USDC Balance: ${balance}")
+
         
-        # Place test order
-        print(f"\nPlacing test order: Buy {size} PURR @ ${price}")
+        if balance < 1:
+            print(f"\nInsufficient USDC balance ({balance}). Skipping test.")
+            return
+            
+        # Get and normalize price
+        market_price = 0.46  # Fixed price for PURR/USDC
+        normalized_price = normalize_price(info, "PURR", market_price, reference_type='mark')
+        
+        # Calculate safe size
+        size, size_message = calculate_safe_size(
+            info,
+            "PURR",
+            balance,
+            normalized_price,
+            leverage=1,  # Spot trading
+            safety_margin=0.95
+        )
+        print(f"\nCalculated Size: {size_message}")
+        
+        # Validate the order
+        is_valid, validation_message = validate_order(
+            info,
+            "PURR",
+            True,  # Buy
+            size,
+            normalized_price
+        )
+        print(f"\nOrder Validation: {validation_message}")
+        
+        if not is_valid:
+            print(f"❌ Order validation failed: {validation_message}")
+            return
+            
+        print(f"\nPlacing test order: Buy {size} PURR @ ${normalized_price}")
         order_result = exchange.order(
             "PURR/USDC",  # Use proper spot pair format
             True,        # Buy
             size,       # Amount in PURR
-            price,      # Price in USDC
+            normalized_price,      # Price in USDC
             {"limit": {"tif": "Gtc"}}  # Good-til-cancel
         )
         
