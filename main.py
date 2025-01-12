@@ -190,9 +190,9 @@ def main():
         Path(advice_file).write_text(json.dumps(advice, indent=2))
         print(f"📝 Trading advice saved to {advice_file}")
 
-        # Execute spot trades if selected
-        if spot_preferences:
-            execute_spot_trades(advice, address, info, exchange)
+        # # Execute spot trades if selected
+        # if spot_preferences:
+        #     execute_spot_trades(advice, address, info, exchange)
 
         # Execute perpetual trades if selected
         if perp_preferences:
