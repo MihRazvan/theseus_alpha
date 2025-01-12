@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from datetime import datetime
 from typing import Dict
+import time
 
 from openai import OpenAI
 from hyperliquid.utils import constants
@@ -34,8 +35,6 @@ def print_section(msg: str):
 
 def execute_spot_trades(advice: Dict, address: str, info, exchange):
     """Execute spot trades based on the advice."""
-    executor = TradingExecutor(address, info, exchange)
-
     trades = advice.get("spot_recommendations", [])
     if not trades:
         print("\n📢 No spot trades to execute.")
@@ -45,33 +44,31 @@ def execute_spot_trades(advice: Dict, address: str, info, exchange):
     for i, trade in enumerate(trades, 1):
         print(f"\n🔄 Processing Trade {i}/{len(trades)}")
 
-        # Hardcode PURR/USDC for testnet spot trading
-        trade["asset"] = PURR_SPOT_PAIR
-        trade["market_price"] = MARKET_PRICE_PURR
+        try:
+            # Hardcode PURR/USDC for testnet spot trading
+            asset = PURR_SPOT_PAIR
+            size_usd = trade.get("size_usd", MIN_ORDER_SIZE_USD)
 
-        execution = executor._execute_spot_trade(trade)
+            if size_usd < MIN_ORDER_SIZE_USD:
+                raise ValueError(f"Order value ${size_usd} below minimum ${MIN_ORDER_SIZE_USD}")
 
-        # Display the trade result
-        print("\n" + "=" * 50)
-        print("Trade Details:")
-        print(f"Asset: {trade['asset']}")
-        print(f"Action: {'Buy' if trade['action'] == 'buy' else 'Sell'}")
-        print(f"Size: ${trade.get('size_usd', 'N/A')}")
-        print(f"Status: {'✅ SUCCESS' if execution.success else '❌ FAILED'}")
-        if execution.error:
-            print(f"Error: {execution.error}")
-        print("=" * 50)
+            # Execute market order
+            response = exchange.market_open(asset, True, size_usd / MARKET_PRICE_PURR, None, 0.01)
+            if response["status"] == "ok":
+                print("\n✅ SUCCESS: Spot trade executed successfully")
+            else:
+                raise Exception(f"Spot trade failed: {response}")
+        except Exception as e:
+            print("\n❌ FAILED: Spot trade error")
+            print(f"Error: {e}")
 
         # Wait before the next trade
         if i < len(trades):
             print(f"\n⏳ Waiting {TRADE_DELAY}s before next trade...")
-            import time
             time.sleep(TRADE_DELAY)
 
 def execute_perp_trades(advice: Dict, address: str, info, exchange):
     """Execute perpetual trades based on the advice."""
-    executor = TradingExecutor(address, info, exchange)
-
     trades = advice.get("perp_recommendations", [])
     if not trades:
         print("\n📢 No perpetual trades to execute.")
@@ -81,24 +78,31 @@ def execute_perp_trades(advice: Dict, address: str, info, exchange):
     for i, trade in enumerate(trades, 1):
         print(f"\n🔄 Processing Trade {i}/{len(trades)}")
 
-        execution = executor._execute_perp_trade(trade)
+        try:
+            asset = trade.get("asset")
+            size_usd = trade.get("size_usd", MIN_ORDER_SIZE_USD)
+            direction = trade.get("direction", "long") == "long"
+            leverage = trade.get("leverage", 2)
 
-        # Display the trade result
-        print("\n" + "=" * 50)
-        print("Trade Details:")
-        print(f"Asset: {trade['asset']}")
-        print(f"Direction: {'Long' if trade['direction'] == 'long' else 'Short'}")
-        print(f"Size: ${trade.get('size_usd', 'N/A')}")
-        print(f"Leverage: {trade.get('leverage', 'N/A')}x")
-        print(f"Status: {'✅ SUCCESS' if execution.success else '❌ FAILED'}")
-        if execution.error:
-            print(f"Error: {execution.error}")
-        print("=" * 50)
+            if size_usd < MIN_ORDER_SIZE_USD:
+                raise ValueError(f"Order value ${size_usd} below minimum ${MIN_ORDER_SIZE_USD}")
+
+            # Update leverage
+            exchange.update_leverage(leverage, asset, is_cross=True)
+
+            # Execute market order
+            response = exchange.market_open(asset, direction, size_usd, None, 0.01)
+            if response["status"] == "ok":
+                print("\n✅ SUCCESS: Perpetual trade executed successfully")
+            else:
+                raise Exception(f"Perpetual trade failed: {response}")
+        except Exception as e:
+            print("\n❌ FAILED: Perpetual trade error")
+            print(f"Error: {e}")
 
         # Wait before the next trade
         if i < len(trades):
             print(f"\n⏳ Waiting {TRADE_DELAY}s before next trade...")
-            import time
             time.sleep(TRADE_DELAY)
 
 def main():
