@@ -7,7 +7,7 @@ Theseus Alpha is an intelligent trading system designed for the HyperLiquid bloc
 
 ## System Architecture
 
-https://ibb.co/mG4dFhw
+[url=https://ibb.co/mG4dFhw][img]https://i.ibb.co/rmHqf5S/Theseus-final-diagram.png[/img][/url]
 
 Theseus Alpha's architecture is modular and scalable, focusing on three core pillars:
 
