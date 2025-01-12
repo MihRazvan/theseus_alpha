@@ -3,6 +3,8 @@
 
 Theseus Alpha is an intelligent trading system designed for the HyperLiquid blockchain. It leverages advanced LLM-driven (Large Language Model) analysis to make informed trading decisions. Drawing inspiration from the legendary hero Theseus, the system aims to navigate the labyrinthine complexities of crypto markets with precision and efficiency.
 
+DEMO: https://youtu.be/3PJKLCC39bU
+
 <a href="https://ibb.co/0fxQVFp"><img src="https://i.ibb.co/vJSDvQC/greek4.jpg" alt="greek4" border="0"></a>
 
 ---
